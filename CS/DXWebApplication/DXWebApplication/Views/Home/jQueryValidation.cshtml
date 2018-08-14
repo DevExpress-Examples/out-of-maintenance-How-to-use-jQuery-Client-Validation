@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model DXWebApplication.JQueryValidationData
+
+
+<script type="text/javascript">
+    // <![CDATA[
+    $().ready(function () {
+        $("#jQueryValidationForm").validate({
+            showErrors: function (errorMap, errorList) {
+            },
+            rules: {
+                Author: {
+                    required: true
+                },
+                Publisher: {
+                    maxlength: 10
+                },
+                ReleaseDate: {
+                    required: true,
+                    remote: '@(Url.Action("CheckReleaseDate", "Home"))'
+                },
+                Annotation: {
+                    required: true
+                }
+            },
+            messages: {
+                Author: {
+                    required: "Author is required"
+                },
+                Publisher: {
+                    range: "Must be under 10 characters"
+                },
+                ReleaseDate: {
+                    required: "Release date is required",
+                    remote: "Release date can not be earlier than today"
+                },
+                Annotation: {
+                    required: "Annotation is required"
+                }
+            }
+        });
+    });
+    // ]]>
+</script>
+
+@{
+    Html.EnableClientValidation(false);
+    Html.EnableUnobtrusiveJavaScript(false);
+}
+@using(Html.BeginForm("jQueryValidation", "Home", FormMethod.Post, new { id = "jQueryValidationForm", @class = "edit_form" })) {
+    @Html.DevExpress().FormLayout(settings => {
+    settings.Name = "jQueryValidationFormLayout";
+    settings.ControlStyle.CssClass = "formLayoutMaxWidth";
+    settings.Width = 400;
+    settings.UseDefaultPaddings = false;
+    settings.Items.Add(model => model.Author, itemSettings => {
+        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        itemSettings.NestedExtension().TextBox(textBoxSettings => {
+            textBoxSettings.Properties.ValidationSettings.Display = Display.None;
+        });
+    });
+    settings.Items.Add(model => model.Publisher, itemSettings => {
+        itemSettings.HelpText = "Must be under 10 characters";
+        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        itemSettings.NestedExtension().TextBox(textBoxSettings => {
+            textBoxSettings.Properties.ValidationSettings.Display = Display.None;
+        });
+    });
+    settings.Items.Add(model => model.ReleaseDate, itemSettings => {
+        itemSettings.HelpText = "Cannot be earlier than today";
+        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        itemSettings.NestedExtension().DateEdit(dateEditSettings => {
+            dateEditSettings.Properties.ValidationSettings.Display = Display.None;
+            dateEditSettings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+        });
+    });
+    settings.Items.Add(model => model.Annotation, itemSettings => {
+        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        itemSettings.NestedExtension().Memo(memoSettings => {
+            memoSettings.ShowModelErrors = true;
+            memoSettings.Properties.ValidationSettings.Display = Display.None;
+            memoSettings.Width = Unit.Percentage(100);
+        });
+    });
+    settings.Items.Add(itemSettings => {
+        itemSettings.ShowCaption = DefaultBoolean.False;
+        itemSettings.SetNestedContent(() =>
+            Html.DevExpress().ValidationSummary().Render()
+        );
+    });
+    settings.Items.Add(itemSettings => {
+        itemSettings.ShowCaption = DefaultBoolean.False;
+        itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        itemSettings.SetNestedContent(() => {
+            Html.DevExpress().Button(btnSettings => {
+                btnSettings.Name = "btnUpdate";
+                btnSettings.Text = "Send";
+                btnSettings.ControlStyle.CssClass = "flButton";
+                btnSettings.UseSubmitBehavior = true;
+            }).Render();
+            Html.DevExpress().Button(btnSettings => {
+                btnSettings.Name = "btnClear";
+                btnSettings.Text = "Clear";
+                btnSettings.ControlStyle.CssClass = "flButton";
+                btnSettings.ClientSideEvents.Click = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(); }";
+            }).Render();
+        });
+    });
+}).GetHtml()
+}
