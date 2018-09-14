@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 Imports System.ComponentModel.DataAnnotations
 Imports System.Linq
 Imports System.Web
+Imports System.Web.Mvc
 
 Namespace DXWebApplication
     <ValidateInput(False)> _
@@ -33,8 +34,8 @@ Namespace DXWebApplication
             End If
             Return View("jQueryValidation", validationData)
         End Function
-        Public Function CheckReleaseDate(ByVal ReleaseDate? As Date) As JsonResult
-            Return Json(ReleaseDate IsNot Nothing AndAlso ReleaseDate >= Date.Today, JsonRequestBehavior.AllowGet)
+        Public Function CheckReleaseDate(ByVal ReleaseDate As Date) As JsonResult
+            Return Json(ReleaseDate >= Date.Today, JsonRequestBehavior.AllowGet)
         End Function
     End Class
 
