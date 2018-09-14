@@ -5,19 +5,9 @@ Imports System.Linq
 Imports System.Web
 
 Namespace DXWebApplication
-    Public Class CommonDemoHelper
-
-        Private Shared textBoxSettingsMethod_Renamed As Action(Of TextBoxSettings)
+    Public Class SettingsHelper
 
         Private Shared formLayoutItemSettingsMethod_Renamed As Action(Of MVCxFormLayoutItem)
-        Public Shared ReadOnly Property TextBoxSettingsMethod() As Action(Of TextBoxSettings)
-            Get
-                If textBoxSettingsMethod_Renamed Is Nothing Then
-                    textBoxSettingsMethod_Renamed = CreateTextBoxSettingsMethod()
-                End If
-                Return textBoxSettingsMethod_Renamed
-            End Get
-        End Property
         Public Shared ReadOnly Property FormLayoutItemSettingsMethod() As Action(Of MVCxFormLayoutItem)
             Get
                 If formLayoutItemSettingsMethod_Renamed Is Nothing Then
@@ -26,21 +16,6 @@ Namespace DXWebApplication
                 Return formLayoutItemSettingsMethod_Renamed
             End Get
         End Property
-        Public Shared Function GetCaptionFromModel(ByVal propertyName As String, ByVal modelType As Type) As String
-            Dim info = modelType.GetMember(propertyName)
-            Dim attributes = info(0).GetCustomAttributes(GetType(DisplayAttribute), False)
-            Dim caption = DirectCast(attributes(0), DisplayAttribute).Name
-            Return caption
-        End Function
-        Private Shared Function CreateTextBoxSettingsMethod() As Action(Of TextBoxSettings)
-            Return Sub(settings)
-                settings.Width = Unit.Percentage(100)
-                settings.Properties.ValidationSettings.Display = Display.Dynamic
-                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom
-                settings.ShowModelErrors = True
-                settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText
-            End Sub
-        End Function
         Private Shared Function CreateFormLayoutItemSettingsMethod() As Action(Of MVCxFormLayoutItem)
             Return Sub(itemSettings)
                 itemSettings.Width = Unit.Percentage(100)

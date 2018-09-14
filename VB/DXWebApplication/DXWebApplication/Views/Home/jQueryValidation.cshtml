@@ -1,14 +1,9 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 @model DXWebApplication.JQueryValidationData
 
-
 <script type="text/javascript">
-    // <![CDATA[
     $().ready(function () {
         $("#jQueryValidationForm").validate({
             showErrors: function (errorMap, errorList) {
@@ -45,13 +40,13 @@
             }
         });
     });
-    // ]]>
 </script>
 
 @{
     Html.EnableClientValidation(false);
     Html.EnableUnobtrusiveJavaScript(false);
 }
+
 @using(Html.BeginForm("jQueryValidation", "Home", FormMethod.Post, new { id = "jQueryValidationForm", @class = "edit_form" })) {
     @Html.DevExpress().FormLayout(settings => {
     settings.Name = "jQueryValidationFormLayout";
@@ -59,28 +54,28 @@
     settings.Width = 400;
     settings.UseDefaultPaddings = false;
     settings.Items.Add(model => model.Author, itemSettings => {
-        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        SettingsHelper.FormLayoutItemSettingsMethod(itemSettings);
         itemSettings.NestedExtension().TextBox(textBoxSettings => {
             textBoxSettings.Properties.ValidationSettings.Display = Display.None;
         });
     });
     settings.Items.Add(model => model.Publisher, itemSettings => {
         itemSettings.HelpText = "Must be under 10 characters";
-        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        SettingsHelper.FormLayoutItemSettingsMethod(itemSettings);
         itemSettings.NestedExtension().TextBox(textBoxSettings => {
             textBoxSettings.Properties.ValidationSettings.Display = Display.None;
         });
     });
     settings.Items.Add(model => model.ReleaseDate, itemSettings => {
         itemSettings.HelpText = "Cannot be earlier than today";
-        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        SettingsHelper.FormLayoutItemSettingsMethod(itemSettings);
         itemSettings.NestedExtension().DateEdit(dateEditSettings => {
             dateEditSettings.Properties.ValidationSettings.Display = Display.None;
             dateEditSettings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
         });
     });
     settings.Items.Add(model => model.Annotation, itemSettings => {
-        CommonDemoHelper.FormLayoutItemSettingsMethod(itemSettings);
+        SettingsHelper.FormLayoutItemSettingsMethod(itemSettings);
         itemSettings.NestedExtension().Memo(memoSettings => {
             memoSettings.ShowModelErrors = true;
             memoSettings.Properties.ValidationSettings.Display = Display.None;
