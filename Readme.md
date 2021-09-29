@@ -12,7 +12,7 @@
 
 This example illustrates how user input can be easily validated using the jQuery Validation library. DevExpress MVC extensions provide you with full jQuery Client Validation support.
 
-In this example, the jQuery Validation methods are used to specify validation rules for individual model fields on the client. You can find a full list of the validation methods on the jQuery Documentation page:  [Plugins/Validation - jQuery Wiki - List of built-in Validation methods](https://jqueryvalidation.org/documentation/).
+In this example, the jQuery Validation methods are used to specify validation rules for individual model fields on the client. You can find a full list of the validation methods on the jQuery Documentation page:  [Plugins/Validation - jQuery Wiki - List of built-in Validation methods](https://github.com/jquery-validation/jquery-validation#readme).
 
 The  **rules:{...}**  block contains field names with validation atributes.
 
